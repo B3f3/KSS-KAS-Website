@@ -1,11 +1,14 @@
 "use client"; // Ensure client-side rendering
 import { useEffect, useState } from 'react';
 import { KSSCalculator } from '../ksskass/ksskasscalulator';
+import { addOrder } from '../api/orderhistory';
+
 import styles from '../styles/Home.module.css';
 
 import dynamic from 'next/dynamic';
 import Navbar from "../components/navbar-without-api";
 import Link from "next/link";
+
 
 // Dynamically import react-select to avoid hydration issues
 const Select = dynamic(() => import('react-select'), { ssr: false });
@@ -16,8 +19,8 @@ const KSSKAS: React.FC = () => {
     const [buyAmount, setBuyAmount] = useState<number>(0);
     const [coins, setCoins] = useState<string[]>([]);
     const [selectedCoin, setSelectedCoin] = useState<string>('');
-    const [orderSummary, setOrderSummary] = useState<string>("");
-  
+    const [orderSummary, setOrderSummary] = useState<string>('');
+
     const calculator = new KSSCalculator(buyPrice, buyAmount);
 
     // Handle platform change
@@ -32,6 +35,8 @@ const KSSKAS: React.FC = () => {
             alert("Please fill out all the fields!");
             return;
           }
+
+        
 
         const summary = `
         Platform: ${platform}
@@ -111,7 +116,10 @@ const KSSKAS: React.FC = () => {
                                 name="buy-price"
                                 placeholder="Enter buy price"
                                 value={buyPrice}
-                                onChange={(e) => setBuyPrice(parseFloat(e.target.value))}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setBuyPrice(parseFloat(value));
+                                  }}
                             />
                         </div>
                     </div>
@@ -126,7 +134,10 @@ const KSSKAS: React.FC = () => {
                                 name="buy-amount"
                                 placeholder="Enter buy amount"
                                 value={buyAmount}
-                                onChange={(e) => setBuyAmount(parseFloat(e.target.value))}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setBuyAmount(parseFloat(value));
+                                  }}
                             />
                             <button type="button" className={styles.button} onClick={handleOrder}>
                                 Create Order

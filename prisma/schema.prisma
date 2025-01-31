@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:app.db"
+}
+
+
+model User {
+  id           Int @id @default(autoincrement()) // Primary key with auto-increment
+  name         String?  // First name (nullable)
+  surname      String?  // Last name (nullable)
+  username     String   @unique // Unique username
+  password     String   // Password
+  email        String   @unique // Unique email
+  time_updated DateTime @default(now()) // Default to current timestamp
+  is_active    Boolean  @default(true) // Default to true
+  role         String   @default("user") // Default role is "user"
+  ApiKey       ApiKey?
+  TradeHistory TradeHistory?
+
+}
+
+model ApiKey {
+  id             Int @id @default(autoincrement()) // Primary key with auto-increment
+
+  userId       Int  @unique
+  user         User @relation(fields: [userId], references: [id])
+
+  apiName        String
+  apiOnPlatform  String
+  apiKey         String
+  apiSecret      String
+  createdAt      DateTime  @default(now())
+  isActive       Boolean   @default(false)
+}
+
+model TradeHistory{
+    id           Int @id @default(autoincrement()) // Primary key with auto-increment
+
+    userId       Int  @unique
+    user         User @relation(fields: [userId], references: [id])
+
+    platform     String
+    ticker       String
+    strategyType String
+    amount       Float
+    entryPrice   Float
+    timestamp    DateTime  @default(now())
+}
+

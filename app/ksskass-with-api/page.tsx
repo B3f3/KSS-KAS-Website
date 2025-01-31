@@ -67,7 +67,7 @@ const KSSKAS: React.FC = () => {
         <div className={styles.container}>
             <div className={styles.content}>
                 <Navbar />
-                <h1>KSSKAS</h1>
+                <h1>KSS-KAS</h1>
                 {/* React-Select Dropdown */}
                 <div className={styles.inputGroup}>
                         <label htmlFor="platform">Choose Platform</label>
@@ -84,7 +84,7 @@ const KSSKAS: React.FC = () => {
                 
 
                 <div className={styles.inputGroup}>
-                    <label htmlFor="api-key">API Key</label>
+                    <label htmlFor="api-key">Public API Key</label>
                     <div className={styles.inputWithButton}>
                         <input
                             type="text"
