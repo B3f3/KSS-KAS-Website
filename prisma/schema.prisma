@@ -21,8 +21,8 @@ model User {
   time_updated DateTime @default(now()) // Default to current timestamp
   is_active    Boolean  @default(true) // Default to true
   role         String   @default("user") // Default role is "user"
-  ApiKey       ApiKey?
-  TradeHistory TradeHistory?
+  ApiKey       ApiKey
+  TradeHistory TradeHistory[]
 
 }
 
@@ -43,7 +43,7 @@ model ApiKey {
 model TradeHistory{
     id           Int @id @default(autoincrement()) // Primary key with auto-increment
 
-    userId       Int  @unique
+    userId       Int  
     user         User @relation(fields: [userId], references: [id])
 
     platform     String

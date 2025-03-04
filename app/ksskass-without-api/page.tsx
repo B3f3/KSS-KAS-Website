@@ -27,26 +27,52 @@ const KSSKAS: React.FC = () => {
     const handlePlatformChange = (selectedOption: any) => {
         setPlatform(selectedOption?.value || '');
       };
-
-    // Handle order creation
-    const handleOrder = () => {
-
-        if (!platform || selectedCoin == null || !buyPrice || !buyAmount) {
+    
+    //handle order
+    const handleOrder = async () => {
+        if (!platform || selectedCoin === '' || !buyPrice || !buyAmount) {
             alert("Please fill out all the fields!");
             return;
-          }
-
-        
-
-        const summary = `
-        Platform: ${platform}
-        Ticker: ${selectedCoin}
-        Buy Price: ${buyPrice}
-        Buy Amount ${buyAmount}
-        `;
-
-        setOrderSummary(summary);
+        }
+    
+        try {
+            const response = await fetch('/api/CreateOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: 1, // Default user ID
+                    platform,
+                    ticker: selectedCoin,
+                    strategyType: 'KSS-KAS',
+                    amount: buyAmount,
+                    entryPrice: buyPrice,
+                }),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+    
+            const result = await response.json();
+            console.log('Order created:', result);
+    
+            const summary = `
+            Platform: ${platform}
+            Ticker: ${selectedCoin}
+            Buy Price: ${buyPrice}
+            Buy Amount: ${buyAmount}
+            `;
+    
+            setOrderSummary(summary);
+            alert('Order successfully created!');
+        } catch (error) {
+            console.error('Error creating order:', error);
+            alert('Failed to create order. Please try again.');
+        }
     };
+    
 
     // Fetch coin list from the Binance API
     useEffect(() => {

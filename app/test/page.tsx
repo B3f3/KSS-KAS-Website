@@ -15,7 +15,7 @@ export default function Home() {
         setMessage("");
 
         try {
-            const response = await fetch("../api/createOrder", {
+            const response = await fetch("/api/CreateOrder", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -29,6 +29,7 @@ export default function Home() {
                     entryPrice: parseFloat(entryPrice),
                 }),
             });
+            
 
             const responseText = await response.text();
             console.log("Response text:", responseText);

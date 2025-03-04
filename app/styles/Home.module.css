@@ -203,3 +203,30 @@
 .orderItem:last-child {
   border-bottom: none;
 }
+
+.clickableRow {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.clickableRow:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdownRow {
+  background-color: #f9f9f9;
+}
+
+.dropdownContent {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.cancelButton {
+  padding: 5px 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
